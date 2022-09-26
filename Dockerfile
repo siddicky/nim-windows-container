@@ -8,7 +8,7 @@ FROM mcr.microsoft.com/windows/servercore:$win_version as build
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';"]
 
 # Set our default Nim version, see the note in README.md, this is automatically overridden by the GitHub Actions workflow with the latest versions polled from GitHub
-ARG nim_version=1.4.8
+ARG nim_version=1.6.2
 
 # Build our Nim download URL using our Nim version
 ARG nim_uri="https://nim-lang.org/download/nim-"$nim_version"_x64.zip"
@@ -23,7 +23,7 @@ RUN Expand-Archive -Path 'nim.zip' -DestinationPath 'c:\'
 RUN Get-ChildItem -Path 'c:\' | Where-Object { $_.Name -like 'nim-*' } | %{ Rename-Item -LiteralPath $_.FullName -NewName 'nim' }
 
 # Download compatible mingw binaries as mingw.7z (ported from finish.exe)
-RUN Invoke-WebRequest -Uri "https://nim-lang.org/download/mingw64.7z" -OutFile mingw.7z
+RUN Invoke-WebRequest -Uri "https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/7.3.0/threads-posix/seh/x86_64-8.1.0-release-posix-seh-rt_v5-rev0.7z" -OutFile mingw.7z
 
 # Expand mingw.7z to c:\nim\dist (ported from finish.exe)
 RUN cd "c:\nim\dist"; "c:\nim\bin\7zG.exe" x "c:\mingw.7z"
