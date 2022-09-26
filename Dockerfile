@@ -23,7 +23,7 @@ RUN Expand-Archive -Path 'nim.zip' -DestinationPath 'c:\'
 RUN Get-ChildItem -Path 'c:\' | Where-Object { $_.Name -like 'nim-*' } | %{ Rename-Item -LiteralPath $_.FullName -NewName 'nim' }
 
 # Download compatible mingw binaries as mingw.7z (ported from finish.exe)
-RUN Invoke-WebRequest -Uri "https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/7.3.0/threads-posix/seh/x86_64-8.1.0-release-posix-seh-rt_v5-rev0.7z" -OutFile mingw.7z
+RUN Invoke-WebRequest -Uri "https://raw.githubusercontent.com/rcpacini/mingw-w64/blob/master/MinGW-W64%20GCC-8.1.0/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z" -OutFile mingw.7z
 
 # Expand mingw.7z to c:\nim\dist (ported from finish.exe)
 RUN cd "c:\nim\dist"; "c:\nim\bin\7zG.exe" x "c:\mingw.7z"
